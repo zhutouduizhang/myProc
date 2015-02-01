@@ -10,21 +10,19 @@ def scan():
     amount = len(charac)
     count = 0
     for cms in charac:
-        f = open(cms, 'r')
-        while 1:
-            line = f.readline().strip().split('------')
+        for line in open(cms, 'r'):
+            line = line.strip().split('------')
             if len(line) != 3:
-                break
+                continue
             r = urllib2.Request('http://'+host+line[0],headers=header)
             try:
                 u = urllib2.urlopen(r)
-            except urllib2.HTTPError:
-                break
+            except urllib2.URLError:
+                continue
             data = u.read().decode('gbk')
             if re.compile(r'(?i)'+line[1]).search(data):
                     print 'Identified: '+host +' is ' + line[2]
                     sys.exit(0)
-        f.close()
         count += 1
         print '......finished %.2f%%' % (count*1.0/amount*100)
     print 'can\'t identify it......'
