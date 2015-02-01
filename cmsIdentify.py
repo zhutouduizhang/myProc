@@ -15,6 +15,7 @@ def scan():
             if len(line) != 3:
                 continue
             r = urllib2.Request('http://'+host+line[0],headers=header)
+            print 'http://'+host+line[0]
             try:
                 u = urllib2.urlopen(r)
             except urllib2.URLError:
